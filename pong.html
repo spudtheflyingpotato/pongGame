@@ -1,0 +1,96 @@
+<div id="board">
+    <div id="blue">
+    </div>
+    <div id="red">
+    </div>
+    <div id="ball">
+    </div>
+</div>
+
+<script>
+
+const board = document.getElementById("board");
+const blue = document.getElementById("blue");
+const red = document.getElementById("red");
+const ball = document.getElementById("ball");
+
+board.style.backgroundColor = "green";
+board.style.width = "400px";
+board.style.height = "250px";
+board.style.top = "0";
+board.style.left = "0";
+
+ball.style.backgroundColor = "black";
+ball.style.width = "10px";
+ball.style.height = "10px";
+ball.style.top = "120px";
+ball.style.left = "195px";
+
+blue.style.backgroundColor = "blue";
+blue.style.width = "60px";
+blue.style.height = "10px";
+blue.style.top = "0";
+blue.style.left = "170px";
+
+red.style.backgroundColor = "red";
+red.style.width = "60px";
+red.style.height = "10px";
+red.style.top = "240px";
+red.style.left = "170px";
+
+const items = [board, blue, red, ball];
+for (let i = 0; i < items.length; i++){
+    items[i].style.position = "absolute";
+}
+
+document.addEventListener("keydown", function(theEvent){
+    let currentPosition = parseInt(blue.style.left);
+    if (theEvent.key == "ArrowRight"){
+        currentPosition += 15;
+    } else if (theEvent.key == "ArrowLeft"){
+        currentPosition -= 15;
+    }
+    blue.style.left = currentPosition + "px";
+});
+
+let deltaLeft = 3;
+let deltaTop = 3;
+
+const mainGameLoop = function(){
+    let currentLeft = parseInt(ball.style.left);
+    let currentTop = parseInt(ball.style.top);
+
+    if (currentTop >= 230){
+        deltaTop = -deltaTop;
+    } 
+    if (currentTop <= 10){
+        let playerOne = parseInt(blue.style.left);
+        if(currentLeft < playerOne || currentLeft > (playerOne + 60)){
+            alert("You're a loser. Haha.")
+            return;}
+        deltaTop = -deltaTop;
+    } 
+    if (currentLeft >= 390 || currentLeft <= 0){
+        deltaLeft = -deltaLeft;
+    }  
+
+    ball.style.left = currentLeft + deltaLeft + 2 + "px";
+    ball.style.top = currentTop + deltaTop + "px";
+    
+    // nastyComputerMakesItsNastyMove()
+    document.getElementById("red").style.animationDelay = "2s"
+    red.style.left = parseInt(ball.style.left) - 60;
+    if (currentLeft < red.style.left || currentLeft > (red.style.left + 60)){
+        alert("You won! Go you!")
+    }
+
+    window.requestAnimationFrame(mainGameLoop);
+};
+mainGameLoop();
+
+</script>
+
+<!--Homework:
+Make the computer play - done
+See if you can change the ball's angle
+See if you can make it speed up with each bounce-->
