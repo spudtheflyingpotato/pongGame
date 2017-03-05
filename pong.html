@@ -10,29 +10,29 @@
 
 <script>
 
-class Colourable {
-    constructor(position, colour, dimensions){
-        this.position = position;
-        this.colour = colour;
-        this.dimensions = dimensions;
-        this.element = document.createElement("div");
-        document.appendChild(this.element);
-    }
-}
+// class Colourable {
+//     constructor(position, colour, dimensions){
+//         this.position = position;
+//         this.colour = colour;
+//         this.dimensions = dimensions;
+//         this.element = document.createElement("div");
+//         document.appendChild(this.element);
+//     }
+// }
 
-class Mover extends Colourable{
-    constructor(velocity, position, colour, dimensions){
-        super(position, colour, dimensions);
-        this.velocity = velocity;
-    }
+// class Mover extends Colourable{
+//     constructor(velocity, position, colour, dimensions){
+//         super(position, colour, dimensions);
+//         this.velocity = velocity;
+//     }
 
-   move(){
-       this.position.x += this.velocity.dx;
-       this.position.y += this.velocity.dy;
-       this.element.style.left = this.position.x + "px";
-       this.element.style.top = this.position.y + "px";
-   }
-}
+//    move(){
+//        this.position.x += this.velocity.dx;
+//        this.position.y += this.velocity.dy;
+//        this.element.style.left = this.position.x + "px";
+//        this.element.style.top = this.position.y + "px";
+//    }
+// }
 
 const board = document.getElementById("board");
 const blue = document.getElementById("blue");
@@ -121,18 +121,18 @@ const mainGameLoop = function(){
     red.style.left = Math.round(redPaddleLeft) + "px";
 
 
-    // if (currentLeft < red.style.left || currentLeft > (red.style.left + 60)){
-    //     alert("You won! Go you!")
-// }
-    // window.requestAnimationFrame(mainGameLoop);
+    if (currentLeft < red.style.left || currentLeft > (red.style.left + 60)){
+        alert("You won! Go you!")
+}
+    window.requestAnimationFrame(mainGameLoop);
 };
 
 
-document.addEventListener("keydown", function(event){
-    console.log(event);
-    if (event.key == "."){
-        mainGameLoop();
-    }
-});
+// document.addEventListener("keydown", function(event){
+//     console.log(event);
+//     if (event.key == "."){
+//         mainGameLoop();
+//     }
+// });
 mainGameLoop();
 </script>
