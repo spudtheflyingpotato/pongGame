@@ -110,7 +110,6 @@ const hitBottomWall = function(){
     deltaTop = Math.max(deltaTop, -5);
 }
 
-
 const mainGameLoop = function(){
     let currentLeft = parseInt(ball.position.x);
     let currentTop = parseInt(ball.position.y);
@@ -148,7 +147,15 @@ const mainGameLoop = function(){
         //left
     }
 
-    red.position.x = Math.round(redPaddleLeft);
+    let currentRedPosition = parseInt(red.position.x);
+    currentRedPosition = Math.round(redPaddleLeft);
+     if (currentRedPosition > 340){
+        currentRedPosition = 340;
+    }
+    else if (currentRedPosition < 0){
+        currentRedPosition = 0;
+    }
+    red.position.x = currentRedPosition;
 
     window.requestAnimationFrame(mainGameLoop);
 };
