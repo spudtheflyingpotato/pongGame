@@ -1,48 +1,62 @@
 <html>
-<div id="board">
+<!--<div id="board">-->
     <div id="blue">
     </div>
     <div id="red">
     </div>
     <div id="ball">
     </div>
-</div>
+<!--</div>-->
 
 <script>
 
-// class Colourable {
-//     constructor(position, colour, dimensions){
-//         this.position = position;
-//         this.colour = colour;
-//         this.dimensions = dimensions;
-//         this.element = document.createElement("div");
-//         document.appendChild(this.element);
-//     }
-// }
+class Colourable {
+    constructor(position, colour, dimensions, zIndex = 1) {
+        this.position = position;
+        this.colour = colour;
+        this.dimensions = dimensions;
+        this.element = document.createElement("div");
+        document.body.appendChild(this.element);
+        this.element.style.width = dimensions.w;
+        this.element.style.height = dimensions.h;
+        this.element.style.top = position.x;
+        this.element.style.left = position.y;
+        this.element.style.backgroundColor = colour;
+        this.element.style.position = "absolute";
+        this.element.style.zIndex = zIndex;
+    }
+}
 
-// class Mover extends Colourable{
-//     constructor(velocity, position, colour, dimensions){
-//         super(position, colour, dimensions);
-//         this.velocity = velocity;
-//     }
+class Mover extends Colourable {
+    constructor(velocity, position, colour, dimensions) {
+        super(position, colour, dimensions);
+        this.velocity = velocity;
+    }
 
-//    move(){
-//        this.position.x += this.velocity.dx;
-//        this.position.y += this.velocity.dy;
-//        this.element.style.left = this.position.x + "px";
-//        this.element.style.top = this.position.y + "px";
-//    }
-// }
+    move() {
+       this.position.x += this.velocity.dx;
+       this.position.y += this.velocity.dy;
+       this.element.style.left = this.position.x + "px";
+       this.element.style.top = this.position.y + "px";
+   }
 
-const board = document.getElementById("board");
+   changeDirection(v2) {
+       this.velocity = v2;
+   }
+}
+
+const board = new Colourable({x: 0, y:0}, "green", {w: 400, h: 250}, -1);
+const redPaddle = new Mover()
+
+// const board = document.getElementById("board");
 const blue = document.getElementById("blue");
 const red = document.getElementById("red");
 const ball = document.getElementById("ball");
-board.style.backgroundColor = "green";
-board.style.width = "400px";
-board.style.height = "250px";
-board.style.top = "0";
-board.style.left = "0";
+// board.style.backgroundColor = "green";
+// board.style.width = "400px";
+// board.style.height = "250px";
+// board.style.top = "0";
+// board.style.left = "0";
 ball.style.backgroundColor = "black";
 ball.style.width = "10px";
 ball.style.height = "10px";
@@ -58,7 +72,7 @@ red.style.width = "60px";
 red.style.height = "10px";
 red.style.top = "240px";
 red.style.left = "170px";
-const items = [board, blue, red, ball];
+const items = [blue, red, ball];
 for (let i = 0; i < items.length; i++){
     items[i].style.position = "absolute";
 }
@@ -69,8 +83,15 @@ document.addEventListener("keydown", function(theEvent){
     } else if (theEvent.key == "ArrowLeft"){
         currentPosition -= 15;
     }
+    if (currentPosition > 340){
+        currentPosition = 340;
+    }
+    else if (currentPosition < 0){
+        currentPosition = 0;
+    }
     blue.style.left = currentPosition + "px";
 });
+
 let deltaLeft = 2;
 let deltaTop = 2;
 let redPaddleLeft = 170;
@@ -91,7 +112,11 @@ const hitBottomWall = function(){
 const mainGameLoop = function(){
     let currentLeft = parseInt(ball.style.left);
     let currentTop = parseInt(ball.style.top);
+    
     if (currentTop >= 230){
+    if((currentLeft + 10) < redPaddleLeft || currentLeft > (redPaddleLeft + 60)){
+            alert("You've won! Yay!")
+            return;}
         hitBottomWall();
     } 
     if (currentTop <= 10){
@@ -108,7 +133,6 @@ const mainGameLoop = function(){
     ball.style.top = currentTop + deltaTop + "px";
     
     // nastyComputerMakesItsNastyMove()
-    //document.getElementById("red").style.animationDelay = "200s"
     if (redPaddleLeft - parseInt(ball.style.left) > 0){
         redPaddleLeft = redPaddleLeft - 1.9;
         //right
@@ -121,18 +145,11 @@ const mainGameLoop = function(){
     red.style.left = Math.round(redPaddleLeft) + "px";
 
 
-    if (currentLeft < red.style.left || currentLeft > (red.style.left + 60)){
-        alert("You won! Go you!")
-}
+
     window.requestAnimationFrame(mainGameLoop);
 };
 
-
-// document.addEventListener("keydown", function(event){
-//     console.log(event);
-//     if (event.key == "."){
-//         mainGameLoop();
-//     }
-// });
 mainGameLoop();
 </script>
+
+<!--Homework: replace the ball with a mover-->
