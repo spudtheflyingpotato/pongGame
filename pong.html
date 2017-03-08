@@ -36,8 +36,8 @@ class Mover extends Colourable {
     move() {
        this.position.x += this.velocity.dx;
        this.position.y += this.velocity.dy;
-       this.element.style.left = this.position.x + "px";
-       this.element.style.top = this.position.y + "px";
+       this.element.style.left = this.position.x;
+       this.element.style.top = this.position.y;
    }
 
    changeDirection(v2) {
@@ -46,9 +46,9 @@ class Mover extends Colourable {
 }
 
 const board = new Colourable({x: 0, y: 0}, "purple", {w: 400, h: 250}, -1);
-const red = new Mover({dx: 1.9, dy: 1.9}, {x: 240, y: 170}, "red", {w: 60, h: 10});
-const blue = new Mover({dx: 2, dy: 2}, {x: 0, y: 170}, "blue", {w: 60, h: 10});
-const ball = new Mover({dx: 2, dy: 2}, {x: 120, y: 195}, "orange", {w: 10, h: 10});
+const red = new Mover({dx: 0, dy: 0}, {x: 170, y: 240}, "red", {w: 60, h: 10});
+const blue = new Mover({dx: 0, dy: 0}, {x: 170, y: 0}, "blue", {w: 60, h: 10});
+const ball = new Mover({dx: 0, dy: 0}, {x: 195, y: 120}, "orange", {w: 10, h: 10});
 
 // const board = document.getElementById("board");
 // const blue = document.getElementById("blue");
@@ -79,7 +79,7 @@ const ball = new Mover({dx: 2, dy: 2}, {x: 120, y: 195}, "orange", {w: 10, h: 10
 //     items[i].style.position = "absolute";
 // }
 document.addEventListener("keydown", function(theEvent){
-    let currentPosition = parseInt(blue.style.left);
+    let currentPosition = parseInt(blue.position.x);
     if (theEvent.key == "ArrowRight"){
         currentPosition += 15;
     } else if (theEvent.key == "ArrowLeft"){
@@ -91,7 +91,7 @@ document.addEventListener("keydown", function(theEvent){
     else if (currentPosition < 0){
         currentPosition = 0;
     }
-    blue.style.left = currentPosition + "px";
+    blue.position.x = currentPosition;
 });
 
 let deltaLeft = 2;
@@ -112,8 +112,12 @@ const hitBottomWall = function(){
 
 
 const mainGameLoop = function(){
-    let currentLeft = parseInt(ball.style.left);
-    let currentTop = parseInt(ball.style.top);
+    let currentLeft = parseInt(ball.position.x);
+    let currentTop = parseInt(ball.position.y);
+
+    ball.move();
+    red.move();
+    blue.move();
     
     if (currentTop >= 230){
     if((currentLeft + 10) < redPaddleLeft || currentLeft > (redPaddleLeft + 60)){
@@ -122,7 +126,7 @@ const mainGameLoop = function(){
         hitBottomWall();
     } 
     if (currentTop <= 10){
-        let playerOne = parseInt(blue.style.left);
+        let playerOne = parseInt(blue.position.x);
         if((currentLeft + 10) < playerOne || currentLeft > (playerOne + 60)){
             alert("I'm sorry you lost. You're still okay.")
             return;}
@@ -131,20 +135,20 @@ const mainGameLoop = function(){
     if (currentLeft >= 390 || currentLeft <= 0){
         deltaLeft = -deltaLeft;
     }  
-    ball.style.left = currentLeft + deltaLeft + "px";
-    ball.style.top = currentTop + deltaTop + "px";
+    ball.position.x = currentLeft + deltaLeft;
+    ball.position.y = currentTop + deltaTop;
     
     // nastyComputerMakesItsNastyMove()
-    if (redPaddleLeft - parseInt(ball.style.left) > 0){
+    if (redPaddleLeft - parseInt(ball.position.x) > 0){
         redPaddleLeft = redPaddleLeft - 1.9;
         //right
     }
-    if (redPaddleLeft - parseInt(ball.style.left) < 0){
+    if (redPaddleLeft - parseInt(ball.position.x) < 0){
         redPaddleLeft = redPaddleLeft + 1.9;
         //left
     }
 
-    red.style.left = Math.round(redPaddleLeft) + "px";
+    red.position.x = Math.round(redPaddleLeft);
 
     window.requestAnimationFrame(mainGameLoop);
 };
