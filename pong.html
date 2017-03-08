@@ -143,10 +143,8 @@ const mainGameLoop = function(){
         redPaddleLeft = redPaddleLeft + 1.9;
         //left
     }
-    console.log(redPaddleLeft);
+
     red.style.left = Math.round(redPaddleLeft) + "px";
-
-
 
     window.requestAnimationFrame(mainGameLoop);
 };
