@@ -118,7 +118,7 @@ const mainGameLoop = function(){
     red.move();
     blue.move();
     
-    if (currentTop >= 230){
+    if (currentTop >= 240){
     if((currentLeft + 10) < redPaddleLeft || currentLeft > (redPaddleLeft + 60)){
             alert("You've won! Yay!")
             return;}
@@ -162,5 +162,3 @@ const mainGameLoop = function(){
 
 mainGameLoop();
 </script>
-
-<!--Homework: replace the ball with a mover-->
