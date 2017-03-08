@@ -45,12 +45,12 @@ class Mover extends Colourable {
    }
 }
 
-const board = new Colourable({x: 0, y:0}, "green", {w: 400, h: 250}, -1);
-const redPaddle = new Mover()
+const board = new Colourable({x: 0, y: 0}, "green", {w: 400, h: 250}, -1);
+const redPaddle = new Mover({dx: 2, dy: 2}, {x: 240, y: 175}, "red", {w: 60, h: 10});
 
 // const board = document.getElementById("board");
 const blue = document.getElementById("blue");
-const red = document.getElementById("red");
+// const red = document.getElementById("red");
 const ball = document.getElementById("ball");
 // board.style.backgroundColor = "green";
 // board.style.width = "400px";
@@ -67,11 +67,11 @@ blue.style.width = "60px";
 blue.style.height = "10px";
 blue.style.top = "0";
 blue.style.left = "170px";
-red.style.backgroundColor = "red";
-red.style.width = "60px";
-red.style.height = "10px";
-red.style.top = "240px";
-red.style.left = "170px";
+// red.style.backgroundColor = "red";
+// red.style.width = "60px";
+// red.style.height = "10px";
+// red.style.top = "240px";
+// red.style.left = "170px";
 const items = [blue, red, ball];
 for (let i = 0; i < items.length; i++){
     items[i].style.position = "absolute";
